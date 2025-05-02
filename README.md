@@ -1,12 +1,35 @@
-# React + Vite
+# 🍳 404.js - Plateforme de Recettes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce projet est une plateforme web de partage de recettes développée avec **React (Vite)**, **React Router DOM**, et **Tailwind CSS**.  
+Elle propose une navigation fluide, une gestion des utilisateurs avec rôles (`user`, `admin`), et des accès restreints aux pages selon l'authentification.
 
-Currently, two official plugins are available:
+## 🔐 Fonctionnalités principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔄 Navigation fluide avec React Router DOM
+- 🔐 Authentification simulée (localStorage)
+- 🔒 Protected Routes (routes privées accessibles uniquement après connexion)
+- 🛡️ Gestion des rôles (`user` vs `admin`) pour autoriser certaines actions (ajout/suppression de recettes)
+- 🎯 Guards personnalisés pour redirection selon statut
+- 💻 Interface responsive avec Tailwind CSS
+- 📝 Pages principales : Accueil, Recettes, Détails d'une recette, Connexion, Profil, Admin
+- ⚠️ Accès sécurisé :
+  - `Ajout / Modif / Suppression` → uniquement connecté
+  - `Suppression` → réservé à un `admin`
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Démarrer le projet
+
+### 1. Cloner le projet
+
+```bash
+git clone https://github.com/ton-utilisateur/404js-recettes.git
+cd 404js-recettes
+
+### 2. Installer les dépendances
+npm install
+
+### 3. Lancer le serveur
+npm run dev
+
+
+
