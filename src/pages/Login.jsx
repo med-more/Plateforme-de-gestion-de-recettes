@@ -3,9 +3,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
+import { useAuth } from "../contexts/AuthContext"
 import { Mail, Lock, Eye, EyeOff, LogIn, ArrowLeft } from "lucide-react"
 
 const Login = () => {
+  const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [showPassword, setShowPassword] = useState(false)
