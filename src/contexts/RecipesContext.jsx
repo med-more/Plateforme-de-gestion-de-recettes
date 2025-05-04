@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react"
+import { createContext, useContext, useState, useCallback, useEffect } from "react"
 import { toast } from "react-toastify"
 import { CheckCircle, ThumbsUp } from "lucide-react"
 import mockRecipes from "../data/mockRecipes"
@@ -6,13 +6,20 @@ import mockRecipes from "../data/mockRecipes"
 const RecipesContext = createContext()
 
 export function RecipesProvider({ children }) {
-  const [recipes, setRecipes] = useState(mockRecipes)
+  const [recipes, setRecipes] = useState(() => {
+    const storedRecipes = localStorage.getItem("recipes")
+    return storedRecipes ? JSON.parse(storedRecipes) : mockRecipes
+  })
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    localStorage.setItem("recipes", JSON.stringify(recipes))
+  }, [recipes])
 
   const showToast = (type, message, icon) => {
     toast[type](message, {
       icon,
-      position: "bottom-right",
+      position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -23,6 +30,7 @@ export function RecipesProvider({ children }) {
 
   const getAllRecipes = useCallback(async () => {
     setLoading(true)
+    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 600))
     setLoading(false)
     return recipes
@@ -31,6 +39,7 @@ export function RecipesProvider({ children }) {
   const getRecipeById = useCallback(
     async (id) => {
       setLoading(true)
+      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 400))
       const recipe = recipes.find((r) => r.id === id)
       setLoading(false)
@@ -41,6 +50,7 @@ export function RecipesProvider({ children }) {
 
   const createRecipe = useCallback(async (recipeData) => {
     setLoading(true)
+    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 800))
 
     const newRecipe = {
