@@ -1,4 +1,4 @@
-# 🍳 404.js - Plateforme de Recettes
+# 🍳 GlobeCooker  - Plateforme de Recettes
 
 Ce projet est une plateforme web de partage de recettes développée avec **React (Vite)**, **React Router DOM**, et **Tailwind CSS**.  
 Elle propose une navigation fluide, une gestion des utilisateurs avec rôles (`user`, `admin`), et des accès restreints aux pages selon l'authentification.
