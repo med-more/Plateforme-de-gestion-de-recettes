@@ -16,6 +16,8 @@ const PageTransition = ({ children }) => {
     },
   }
 
+  
+
   const pageTransition = {
     type: "tween",
     ease: "anticipate",
