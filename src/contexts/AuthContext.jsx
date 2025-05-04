@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
       if (email === "user@example.com" && password === "password") {
         const mockUser = {
           id: "1",
-          name: "John Doe",
+          name: "Mohammed",
           email,
           role: "user",
         }
@@ -80,7 +80,7 @@ export function AuthProvider({ children }) {
 
       setUser(mockUser)
       localStorage.setItem("user", JSON.stringify(mockUser))
-      showSuccessToast("Account created successfully! Welcome to 404.js")
+      showSuccessToast("Account created successfully! Welcome to GlobeCooker")
       return true
     } catch (error) {
       showErrorToast("Registration failed. Please try again later")

@@ -1,21 +1,52 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
+import { useRecipes } from "../contexts/RecipesContext"
+import { useAuth } from "../contexts/AuthContext"
+import RecipeForm from "../components/recipes/RecipeForm"
 import { ArrowLeft, Edit, AlertCircle } from "lucide-react"
 
 const EditRecipe = () => {
+  const { id } = useParams()
   const navigate = useNavigate()
-  const [recipe, setRecipe] = useState(null)  
+  const { getRecipeById, loading } = useRecipes()
+  const { user } = useAuth()
+  const [recipe, setRecipe] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        setIsLoading(true)
+        const recipeData = await getRecipeById(id)
 
+        if (!recipeData) {
+          setError("Recipe not found")
+          return
+        }
+
+        if (user?.id !== recipeData.authorId) {
+          setError("You don't have permission to edit this recipe")
+          return
+        }
+
+        setRecipe(recipeData)
+      } catch (err) {
+        setError("Failed to load recipe")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchRecipe()
+  }, [id, getRecipeById, user])
 
   if (isLoading || loading) {
     return (
       <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100">
         <motion.div
-          className="flex flex-col items-center bg-white p-10 rounded-2xl shadow-xl"
+          className="flex flex-col items-center bg-white p-6 sm:p-10 rounded-2xl shadow-xl"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -43,7 +74,7 @@ const EditRecipe = () => {
       <div className="min-h-screen pt-24 pb-12 bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="container-custom">
           <motion.div
-            className="bg-white rounded-2xl shadow-xl p-10 text-center max-w-2xl mx-auto border border-red-100"
+            className="bg-white rounded-2xl shadow-xl p-6 sm:p-10 text-center max-w-2xl mx-auto border border-red-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -111,7 +142,7 @@ const EditRecipe = () => {
               <Edit className="text-orange-500" size={24} />
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-gray-100">
+            <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10 border border-gray-100">
               {recipe && <RecipeForm initialValues={recipe} isEditing={true} />}
             </div>
           </motion.div>

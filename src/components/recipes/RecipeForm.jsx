@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik"
 import * as Yup from "yup"
 import { motion, AnimatePresence } from "framer-motion"
+import { useAuth } from "../../contexts/AuthContext"
+import { useRecipes } from "../../contexts/RecipesContext" 
 import {
   Clock,
   Plus,
@@ -23,6 +25,8 @@ import {
 
 const RecipeForm = ({ initialValues = null, isEditing = false }) => {
   const navigate = useNavigate()
+  const { user } = useAuth() 
+  const { createRecipe, updateRecipe } = useRecipes() 
   const [tagInput, setTagInput] = useState("")
   const [imagePreview, setImagePreview] = useState(null)
 
@@ -98,6 +102,25 @@ const RecipeForm = ({ initialValues = null, isEditing = false }) => {
         setFieldValue("image", reader.result)
       }
       reader.readAsDataURL(file)
+    }
+  }
+
+  const handleSubmit = async (values, { setSubmitting }) => {  
+    try {
+      const recipeData = {
+        ...values,
+        ...(isEditing ? {} : { authorId: user.id, authorName: user.name }),
+      }
+
+      if (isEditing) {
+        await updateRecipe(initialValues.id, recipeData)
+        navigate(`/recipe/${initialValues.id}`)
+      } else {
+        const newRecipe = await createRecipe(recipeData)
+        navigate(`/recipe/${newRecipe.id}`)
+      }
+    } finally {
+      setSubmitting(false)
     }
   }
   return (
